@@ -1,3 +1,7 @@
+.features {
+  background: #f8fafc;
+}
+
 .features-grid {
   display: flex;
   flex-wrap: wrap;
@@ -9,22 +13,35 @@
 .feature-cell {
   width: 100%;
   padding: 0 15px;
+  margin-bottom: 1.5rem;
 }
 
 .feature-card {
   max-width: 260px;
   margin: 0 auto;
-  padding: 1.5rem 0;
+  padding: 2rem 1.5rem;
   text-align: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(10, 124, 255, 0.1);
 }
 
 .feature-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   margin: 0 auto 1rem;
+  background: var(--blue-light);
+  border-radius: 50%;
   color: var(--blue);
 }
 

@@ -37,7 +37,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="fonctionnalites" className="section">
+    <section id="fonctionnalites" className="features section">
       <div className="container">
         <ScrollReveal>
           <div className="section-header">

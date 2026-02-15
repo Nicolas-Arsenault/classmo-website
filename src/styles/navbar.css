@@ -8,7 +8,7 @@
   background: rgba(255, 255, 255, 0.84);
   -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
-  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .navbar .container {
@@ -54,9 +54,9 @@
   padding: 0 14px;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--blue);
+  color: var(--text-secondary);
   line-height: var(--nav-height);
-  transition: none;
+  transition: color 0.15s ease;
 }
 
 .navbar-links a::after {
@@ -75,20 +75,44 @@
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
+.navbar-links a:hover {
+  color: var(--text);
+}
+
 .navbar-links a:hover::after {
   opacity: 1;
   transform: scaleX(1) scaleY(1);
 }
 
-.navbar-links a:hover {
-  color: var(--blue);
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 0.5rem;
+}
+
+.navbar-cta {
+  display: none;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--blue);
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.navbar-cta:hover {
+  background: var(--blue-hover);
+  color: #fff;
 }
 
 .navbar-hamburger {
   display: flex;
   align-items: center;
   justify-content: center;
-  justify-self: end;
   width: 40px;
   height: 40px;
   border-radius: 8px;
@@ -108,7 +132,7 @@
   background: rgba(255, 255, 255, 0.96);
   -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
-  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   padding: 0.5rem 1rem;
   z-index: 99;
   display: flex;
@@ -130,6 +154,10 @@
 
 @media (min-width: 768px) {
   .navbar-links {
+    display: flex;
+  }
+
+  .navbar-cta {
     display: flex;
   }
 

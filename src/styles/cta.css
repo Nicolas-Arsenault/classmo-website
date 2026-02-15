@@ -1,0 +1,38 @@
+.cta {
+  background: linear-gradient(135deg, #0A7CFF 0%, #0866D6 100%);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.cta h2 {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.cta h2::after {
+  display: none;
+}
+
+.cta p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 auto 2rem;
+  font-weight: 300;
+}
+
+.cta-badge {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.cta-badge:hover {
+  transform: scale(1.05);
+}
+
+.cta-badge .store-badge {
+  width: 180px;
+  height: 60px;
+}

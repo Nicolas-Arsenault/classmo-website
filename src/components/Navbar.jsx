@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Download } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import '../styles/navbar.css'
 
@@ -28,13 +28,25 @@ export default function Navbar() {
           ))}
         </div>
 
-        <button
-          className="navbar-hamburger"
-          onClick={() => setDrawerOpen(prev => !prev)}
-          aria-label="Menu"
-        >
-          {drawerOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="navbar-right">
+          <a
+            href="https://apps.apple.com/app/classmo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="navbar-cta"
+          >
+            <Download size={16} />
+            Télécharger
+          </a>
+
+          <button
+            className="navbar-hamburger"
+            onClick={() => setDrawerOpen(prev => !prev)}
+            aria-label="Menu"
+          >
+            {drawerOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>

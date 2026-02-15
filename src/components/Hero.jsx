@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+
 import '../styles/hero.css'
 
 function AppStoreBadge() {
@@ -34,6 +35,12 @@ function PlayStoreBadge() {
     </svg>
   )
 }
+
+const stats = [
+  { value: '0$', label: 'de frais' },
+  { value: '70%', label: "d'économies" },
+  { value: '1 min', label: 'pour publier' },
+]
 
 export default function Hero() {
   return (
@@ -86,6 +93,21 @@ export default function Hero() {
             <div className="badge-coming-soon">
               <PlayStoreBadge />
             </div>
+          </motion.div>
+
+          <motion.div
+            className="hero-stats"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            {stats.map((stat, index) => (
+              <div key={stat.label} className="hero-stat">
+                <span className="hero-stat-value">{stat.value}</span>
+                <span className="hero-stat-label">{stat.label}</span>
+                {index < stats.length - 1 && <span className="hero-stat-divider" />}
+              </div>
+            ))}
           </motion.div>
         </div>
 

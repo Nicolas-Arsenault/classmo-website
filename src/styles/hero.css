@@ -1,0 +1,196 @@
+.hero {
+  position: relative;
+  padding: 5rem 0 3rem;
+  margin-top: var(--nav-height);
+  overflow: hidden;
+  background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%);
+}
+
+/* Decorative blurred shapes */
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero::before {
+  width: 400px;
+  height: 400px;
+  background: rgba(10, 124, 255, 0.12);
+  top: -100px;
+  left: -100px;
+}
+
+.hero::after {
+  width: 350px;
+  height: 350px;
+  background: rgba(10, 124, 255, 0.08);
+  bottom: -50px;
+  right: -80px;
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  max-width: var(--hero-max-width) !important;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 16px rgba(10, 124, 255, 0.15);
+}
+
+.hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+.hero-accent {
+  color: var(--blue);
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  line-height: 1.65;
+  max-width: 340px;
+  margin: 0 auto;
+  font-weight: 300;
+  color: var(--text-secondary);
+  padding-bottom: 1.75rem;
+}
+
+/* ===== Store Badges ===== */
+.hero-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.store-badge {
+  height: 44px;
+  width: auto;
+}
+
+.badge-link {
+  display: inline-block;
+  transition: opacity 0.15s ease;
+}
+
+.badge-link:hover {
+  opacity: 0.85;
+}
+
+.badge-coming-soon {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* ===== iPhone Frame ===== */
+.hero-phone {
+  display: flex;
+  justify-content: center;
+}
+
+.iphone-frame {
+  position: relative;
+  width: 260px;
+  aspect-ratio: 393 / 852;
+  background: #000;
+  border-radius: 44px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 25px 60px rgba(10, 124, 255, 0.18),
+    0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.iphone-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 34px;
+  object-fit: cover;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* ===== Tablet (768px+) ===== */
+@media (min-width: 768px) {
+  .hero {
+    padding: 6rem 0 4rem;
+  }
+
+  .hero::before {
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    left: -100px;
+  }
+
+  .hero::after {
+    width: 450px;
+    height: 450px;
+    bottom: -100px;
+    right: -50px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .hero-content {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .hero-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+  }
+
+  .hero-subtitle {
+    margin: 0;
+    max-width: 400px;
+    font-size: 1.25rem;
+  }
+
+  .hero-badges {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .iphone-frame {
+    width: 300px;
+  }
+}
+
+/* ===== Desktop (992px+) ===== */
+@media (min-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 5fr 4fr;
+  }
+
+  .iphone-frame {
+    width: 320px;
+  }
+}

@@ -40,7 +40,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-bottom">
-            <p>&copy; 2025 Classmo. Tous droits réservés.</p>
+            <p>&copy; 2025–2026 Classmo. Tous droits réservés.</p>
           </div>
         </div>
       </footer>

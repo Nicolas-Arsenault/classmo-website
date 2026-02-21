@@ -6,7 +6,11 @@
 
     <title>Classmo — Manuels scolaires à prix étudiant</title>
     <meta name="description" content="Achète et vends tes manuels scolaires de cégep entre étudiants. Gratuit, sans commission. Économise jusqu'à 70% sur tes livres." />
+    <meta name="keywords" content="classmo, manuels scolaires, cégep, livres usagés, marketplace étudiante, livres cégep" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Classmo" />
     <link rel="canonical" href="https://classmo.ca/" />
+    <link rel="alternate" hreflang="fr-CA" href="https://classmo.ca/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -31,7 +35,7 @@
     <link rel="apple-touch-icon" href="/classmo-icon.png" />
     <meta name="theme-color" content="#0A7CFF" />
 
-    <!-- Structured Data -->
+    <!-- Structured Data: MobileApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -46,7 +50,79 @@
       },
       "description": "Achète et vends tes manuels scolaires de cégep entre étudiants. Gratuit, sans commission.",
       "url": "https://classmo.ca",
-      "inLanguage": "fr-CA"
+      "inLanguage": "fr-CA",
+      "screenshot": "https://classmo.ca/hero-screenshot.png"
+    }
+    </script>
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Classmo",
+      "url": "https://classmo.ca",
+      "logo": "https://classmo.ca/classmo-icon.png",
+      "description": "Marketplace étudiante pour manuels scolaires de cégep.",
+      "sameAs": []
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "C'est quoi Classmo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Classmo est une application mobile gratuite qui permet aux étudiants de cégep d'acheter et de vendre leurs manuels scolaires directement entre eux, sans intermédiaire."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Est-ce que c'est gratuit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui, complètement! Classmo est 100% gratuit. Aucun frais d'inscription, aucune commission sur les ventes. L'application est faite par et pour les étudiants."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment ça fonctionne pour vendre un livre?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "C'est simple : crée ton compte, prends quelques photos de ton manuel, ajoute un titre, le prix et la matière, et publie ton annonce. Les acheteurs intéressés te contacteront via le chat intégré."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Est-ce que mes données sont protégées?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolument. Tes données sont chiffrées et stockées de manière sécurisée. Les mots de passe sont hachés, les communications sont protégées par TLS, et nous ne partageons jamais tes informations personnelles."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "L'application est disponible sur Android?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pour le moment, Classmo est disponible uniquement sur iOS (iPhone). Une version Android est prévue prochainement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Je dois être étudiant pour utiliser Classmo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "N'importe qui peut créer un compte et utiliser l'application. Cependant, les étudiants qui s'inscrivent avec un courriel collégial (.edu, @cegepsi.ca, etc.) obtiennent un badge vérifié sur leur profil."
+          }
+        }
+      ]
     }
     </script>
   </head>

@@ -37,7 +37,7 @@ function FAQItem({ question, answer }) {
   return (
     <div className="faq-item">
       <button className="faq-question" onClick={() => setOpen(prev => !prev)}>
-        <span>{question}</span>
+        <h3 className="faq-question-text">{question}</h3>
         <ChevronDown size={20} className={`faq-chevron ${open ? 'open' : ''}`} />
       </button>
       <AnimatePresence initial={false}>

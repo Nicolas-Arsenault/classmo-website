@@ -38,6 +38,12 @@
   color: var(--blue);
 }
 
+.faq-question-text {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}
+
 .faq-chevron {
   flex-shrink: 0;
   color: var(--text-tertiary);

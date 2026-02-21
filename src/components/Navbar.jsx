@@ -30,13 +30,11 @@ export default function Navbar() {
 
         <div className="navbar-right">
           <a
-            href="https://apps.apple.com/app/classmo"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#cta"
             className="navbar-cta"
           >
             <Download size={16} />
-            Télécharger
+            Bêta TestFlight
           </a>
 
           <button

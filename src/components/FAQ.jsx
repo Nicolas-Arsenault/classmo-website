@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import ScrollReveal from './ScrollReveal'
 import '../styles/faq.css'
 

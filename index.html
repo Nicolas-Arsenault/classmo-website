@@ -28,13 +28,23 @@
     <meta name="twitter:image" content="https://classmo.ca/og-image.png" />
 
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none';" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <!-- Favicon & Theme -->
     <link rel="icon" type="image/png" href="/classmo-icon.png" />
     <link rel="apple-touch-icon" href="/classmo-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#0A7CFF" />
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGL445EWDD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JGL445EWDD');
+    </script>
 
     <!-- Structured Data: MobileApplication -->
     <script type="application/ld+json">
@@ -64,8 +74,7 @@
       "name": "Classmo",
       "url": "https://classmo.ca",
       "logo": "https://classmo.ca/classmo-icon.png",
-      "description": "Marketplace étudiante pour manuels scolaires de cégep.",
-      "sameAs": []
+      "description": "Marketplace étudiante pour manuels scolaires de cégep."
     }
     </script>
 

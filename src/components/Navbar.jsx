@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Menu, X, Download } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import '../styles/navbar.css'
 
 const links = [
   { label: 'Fonctionnalités', href: '/#fonctionnalites' },
   { label: 'Comment ça marche', href: '/#comment-ca-marche' },
   { label: 'FAQ', href: '/#faq' },
+  { label: 'Blogue', href: '/blog' },
 ]
 
 export default function Navbar() {

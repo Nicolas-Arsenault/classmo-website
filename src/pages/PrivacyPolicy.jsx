@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 import '../styles/legal.css'
 
 export default function PrivacyPolicy() {
@@ -7,11 +8,17 @@ export default function PrivacyPolicy() {
     window.scrollTo(0, 0)
   }, [])
 
+  useDocumentMeta({
+    title: 'Politique de confidentialité — Classmo',
+    description: 'Découvre comment Classmo protège tes données personnelles. Politique de confidentialité pour l\'application de manuels scolaires de cégep.',
+    canonical: 'https://classmo.ca/privacy',
+  })
+
   return (
     <div className="legal-page">
       <div className="legal-container legal-section">
         <h1 className="legal-title">Politique de confidentialité</h1>
-        <p className="legal-subtitle">Dernière mise à jour : 4 février 2025</p>
+        <p className="legal-subtitle">Dernière mise à jour : 22 février 2026</p>
 
         <Link to="/terms" className="legal-nav-link">
           Conditions d'utilisation &rarr;
@@ -40,6 +47,8 @@ export default function PrivacyPolicy() {
           <li><strong>Annonces :</strong> Titre, description, prix, photos des manuels que vous publiez</li>
           <li><strong>Messages :</strong> Contenu des conversations avec d'autres utilisateurs</li>
           <li><strong>Données techniques :</strong> Informations de connexion pour la sécurité du compte</li>
+          <li><strong>Jetons d'appareil :</strong> Identifiant unique de votre appareil pour l'envoi de notifications push</li>
+          <li><strong>Données d'utilisation :</strong> Statistiques agrégées et anonymes sur l'utilisation de la plateforme</li>
         </ul>
 
         <h2>3. Utilisation des données</h2>
@@ -49,6 +58,7 @@ export default function PrivacyPolicy() {
           <li>Afficher vos annonces aux autres utilisateurs</li>
           <li>Permettre la communication entre acheteurs et vendeurs</li>
           <li>Vérifier votre statut d'étudiant (si vous utilisez un courriel étudiant)</li>
+          <li>Envoyer des notifications push pour les nouveaux messages (si autorisé)</li>
           <li>Assurer la sécurité de la plateforme et prévenir les abus</li>
           <li>Améliorer nos services (statistiques agrégées et anonymes)</li>
         </ul>
@@ -61,7 +71,18 @@ export default function PrivacyPolicy() {
           <li>Vos annonces publiques</li>
           <li>Vos messages dans les conversations privées</li>
         </ul>
-        <p>Nous pouvons partager vos données uniquement si requis par la loi.</p>
+        <p>Nous utilisons les fournisseurs de services tiers suivants pour le fonctionnement de l'application :</p>
+        <ul>
+          <li>
+            <strong>Amazon Web Services (AWS) :</strong> Hébergement de l'application, stockage des images (S3),
+            envoi de courriels (SES) et base de données — les données sont hébergées dans la région Canada (ca-central-1)
+          </li>
+          <li>
+            <strong>Apple Push Notification service (APNs) :</strong> Envoi de notifications push —
+            seul un identifiant anonyme de votre appareil est transmis à Apple
+          </li>
+        </ul>
+        <p>Nous pouvons également partager vos données si requis par la loi.</p>
 
         <h2>5. Stockage et sécurité</h2>
         <ul>
@@ -100,7 +121,45 @@ export default function PrivacyPolicy() {
         </ul>
         <p>Ces photos sont utilisées uniquement pour vos annonces et ne sont jamais partagées à d'autres fins.</p>
 
-        <h2>9. Limitation de responsabilité</h2>
+        <h2>9. Notifications push</h2>
+        <p>
+          L'application peut vous envoyer des notifications push pour vous informer de nouveaux
+          messages dans vos conversations.
+        </p>
+        <ul>
+          <li>Les notifications push sont optionnelles et nécessitent votre autorisation explicite</li>
+          <li>
+            Un jeton d'appareil (identifiant anonyme) est enregistré lorsque vous autorisez les
+            notifications, et supprimé lors de la déconnexion ou de la suppression de votre compte
+          </li>
+          <li>
+            Vous pouvez désactiver les notifications à tout moment dans les réglages de votre appareil
+            iOS (Réglages &gt; Notifications &gt; Classmo)
+          </li>
+        </ul>
+
+        <h2>10. Vie privée des enfants</h2>
+        <p>
+          Classmo est conçu pour les étudiants du Cégep et n'est pas destiné aux enfants de moins
+          de 13 ans. Nous ne collectons pas sciemment de données personnelles auprès d'enfants de
+          moins de 13 ans.
+        </p>
+        <ul>
+          <li>
+            Les utilisateurs âgés de 13 à 17 ans doivent avoir le consentement de leur parent ou
+            tuteur légal pour utiliser l'application, conformément au Code civil du Québec
+          </li>
+          <li>
+            Si nous apprenons que des données ont été collectées auprès d'un enfant de moins de
+            13 ans sans consentement parental, nous supprimerons ces données dans les plus brefs délais
+          </li>
+          <li>
+            Si vous êtes parent ou tuteur et pensez que votre enfant nous a fourni des données
+            personnelles, veuillez nous contacter à l'adresse ci-dessous
+          </li>
+        </ul>
+
+        <h2>11. Limitation de responsabilité</h2>
         <div className="legal-warning">
           <p>
             <strong>Avertissement :</strong> Classmo facilite la mise en relation entre acheteurs et
@@ -120,14 +179,14 @@ export default function PrivacyPolicy() {
           <Link to="/terms">Conditions d'utilisation</Link>.
         </p>
 
-        <h2>10. Modifications</h2>
+        <h2>12. Modifications</h2>
         <p>
           Cette politique peut être mise à jour occasionnellement. Les modifications importantes seront
           communiquées dans l'application.
         </p>
 
         <div className="legal-contact">
-          <h2>11. Contact</h2>
+          <h2>13. Contact</h2>
           <p>Pour toute question concernant cette politique ou vos données personnelles :</p>
           <p>
             <strong>Courriel :</strong>{' '}
@@ -136,7 +195,7 @@ export default function PrivacyPolicy() {
         </div>
 
         <div className="legal-footer">
-          <p>&copy; 2025 Classmo (MonLivreCegep). Tous droits réservés.</p>
+          <p>&copy; 2025-2026 Classmo (MonLivreCegep). Tous droits réservés.</p>
         </div>
       </div>
     </div>

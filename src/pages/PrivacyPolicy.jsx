@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
     <div className="legal-page">
       <div className="legal-container legal-section">
         <h1 className="legal-title">Politique de confidentialité</h1>
-        <p className="legal-subtitle">Dernière mise à jour : 22 février 2026</p>
+        <p className="legal-subtitle">Dernière mise à jour : 23 février 2026</p>
 
         <Link to="/terms" className="legal-nav-link">
           Conditions d'utilisation &rarr;
@@ -46,9 +46,11 @@ export default function PrivacyPolicy() {
           <li><strong>Photo de profil :</strong> Image optionnelle que vous choisissez de téléverser</li>
           <li><strong>Annonces :</strong> Titre, description, prix, photos des manuels que vous publiez</li>
           <li><strong>Messages :</strong> Contenu des conversations avec d'autres utilisateurs</li>
-          <li><strong>Données techniques :</strong> Informations de connexion pour la sécurité du compte</li>
+          <li><strong>Données techniques :</strong> Adresse IP utilisée pour la limitation du débit et la sécurité du compte (non associée à votre profil)</li>
           <li><strong>Jetons d'appareil :</strong> Identifiant unique de votre appareil pour l'envoi de notifications push</li>
-          <li><strong>Données d'utilisation :</strong> Statistiques agrégées et anonymes sur l'utilisation de la plateforme</li>
+          <li><strong>Données d'activité :</strong> Horodatage de votre dernière connexion (pour les statistiques de santé de la plateforme)</li>
+          <li><strong>Compteurs de vues :</strong> Nombre de consultations de chaque annonce (anonyme, limité par adresse IP)</li>
+          <li><strong>Données d'utilisation :</strong> Statistiques agrégées et anonymes (nombre d'utilisateurs actifs, taux de rétention)</li>
         </ul>
 
         <h2>3. Utilisation des données</h2>
@@ -80,6 +82,14 @@ export default function PrivacyPolicy() {
           <li>
             <strong>Apple Push Notification service (APNs) :</strong> Envoi de notifications push —
             seul un identifiant anonyme de votre appareil est transmis à Apple
+          </li>
+          <li>
+            <strong>Google Analytics :</strong> Analyse du trafic sur le site web classmo.ca — des témoins (cookies)
+            sont utilisés pour collecter des statistiques anonymes de navigation. Aucune donnée personnelle
+            identifiable n'est transmise. Voir la{' '}
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+              politique de confidentialité de Google
+            </a>.
           </li>
         </ul>
         <p>Nous pouvons également partager vos données si requis par la loi.</p>
@@ -138,7 +148,29 @@ export default function PrivacyPolicy() {
           </li>
         </ul>
 
-        <h2>10. Vie privée des enfants</h2>
+        <h2>10. Témoins (cookies) et technologies similaires</h2>
+        <p>
+          Le site web classmo.ca utilise Google Analytics (GA4) qui dépose des témoins (cookies) dans
+          votre navigateur pour collecter des statistiques anonymes de navigation (pages visitées, durée
+          des sessions, provenance du trafic).
+        </p>
+        <ul>
+          <li>Ces témoins ne permettent pas de vous identifier personnellement</li>
+          <li>Aucune donnée personnelle (nom, courriel, etc.) n'est transmise à Google</li>
+          <li>
+            Vous pouvez désactiver ces témoins dans les paramètres de votre navigateur ou en
+            utilisant l'extension{' '}
+            <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">
+              Google Analytics Opt-out
+            </a>
+          </li>
+        </ul>
+        <p>
+          L'application iOS Classmo <strong>n'utilise pas</strong> de témoins (cookies) ni de SDK de
+          suivi tiers.
+        </p>
+
+        <h2>11. Vie privée des enfants</h2>
         <p>
           Classmo est conçu pour les étudiants du Cégep et n'est pas destiné aux enfants de moins
           de 13 ans. Nous ne collectons pas sciemment de données personnelles auprès d'enfants de
@@ -159,7 +191,7 @@ export default function PrivacyPolicy() {
           </li>
         </ul>
 
-        <h2>11. Limitation de responsabilité</h2>
+        <h2>12. Limitation de responsabilité</h2>
         <div className="legal-warning">
           <p>
             <strong>Avertissement :</strong> Classmo facilite la mise en relation entre acheteurs et
@@ -179,14 +211,14 @@ export default function PrivacyPolicy() {
           <Link to="/terms">Conditions d'utilisation</Link>.
         </p>
 
-        <h2>12. Modifications</h2>
+        <h2>13. Modifications</h2>
         <p>
           Cette politique peut être mise à jour occasionnellement. Les modifications importantes seront
           communiquées dans l'application.
         </p>
 
         <div className="legal-contact">
-          <h2>13. Contact</h2>
+          <h2>14. Contact</h2>
           <p>Pour toute question concernant cette politique ou vos données personnelles :</p>
           <p>
             <strong>Courriel :</strong>{' '}

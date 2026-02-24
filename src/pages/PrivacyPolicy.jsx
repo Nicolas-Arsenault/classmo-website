@@ -127,9 +127,15 @@ export default function PrivacyPolicy() {
         <p>L'application demande l'accès à :</p>
         <ul>
           <li><strong>Appareil photo :</strong> Pour prendre des photos de vos manuels à vendre</li>
+          <li><strong>Appareil photo (scanner) :</strong> Pour scanner les codes-barres ISBN de vos manuels afin de remplir automatiquement les informations du livre</li>
           <li><strong>Photothèque :</strong> Pour sélectionner des photos existantes de vos manuels</li>
         </ul>
         <p>Ces photos sont utilisées uniquement pour vos annonces et ne sont jamais partagées à d'autres fins.</p>
+        <p>
+          Lorsque vous scannez un code-barres, le numéro ISBN est envoyé à des services externes
+          (Open Library et Google Books) pour récupérer le titre et l'édition du livre.
+          Aucune autre donnée n'est transmise lors de cette recherche.
+        </p>
 
         <h2>9. Notifications push</h2>
         <p>

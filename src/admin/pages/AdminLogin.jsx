@@ -59,7 +59,7 @@ export default function AdminLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@classmo.ca"
+                placeholder="courriel@classmo.ca"
                 required
                 autoComplete="email"
               />

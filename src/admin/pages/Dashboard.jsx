@@ -197,7 +197,7 @@ export default function Dashboard() {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('http://192.168.1.95:8080/api/admin/analytics', {
+      const res = await fetch('https://api.classmo.ca/api/admin/analytics', {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       if (!res.ok) {

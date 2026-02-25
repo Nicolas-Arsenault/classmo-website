@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     try {
-      const res = await fetch('http://192.168.1.95:8080/api/auth/login', {
+      const res = await fetch('https://api.classmo.ca/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

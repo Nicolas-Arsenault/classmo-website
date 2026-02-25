@@ -8,6 +8,9 @@ const STORAGE_KEYS = {
   user: 'classmo_user',
 }
 
+const API_URL = import.meta.env.VITE_API_URL
+const ADMIN_ROLE = import.meta.env.VITE_ADMIN_ROLE
+
 export function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null)
   const [refreshToken, setRefreshToken] = useState(null)
@@ -18,11 +21,11 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem(STORAGE_KEYS.accessToken)
     const storedRefresh = localStorage.getItem(STORAGE_KEYS.refreshToken)
     const storedUser = localStorage.getItem(STORAGE_KEYS.user)
-
+    console.log(API_URL)
     if (storedToken && storedUser) {
       try {
         const parsed = JSON.parse(storedUser)
-        if (parsed.role === 'ADMIN') {
+        if (parsed.role === ADMIN_ROLE) {
           setAccessToken(storedToken)
           setRefreshToken(storedRefresh)
           setUser(parsed)
@@ -40,12 +43,11 @@ export function AuthProvider({ children }) {
 
   async function login(email, password) {
     try {
-      const res = await fetch('https://api.classmo.ca/api/auth/login', {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
-
       if (!res.ok) {
         const text = await res.text()
         let message = 'Identifiants invalides'
@@ -58,7 +60,7 @@ export function AuthProvider({ children }) {
 
       const data = await res.json()
 
-      if (data.role !== 'ADMIN') {
+      if (data.role !== ADMIN_ROLE) {
         return { success: false, error: 'Accès réservé aux administrateurs.' }
       }
 

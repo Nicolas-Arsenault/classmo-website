@@ -7,6 +7,9 @@ import {
 import { useAuth } from '../context/AuthContext'
 import '../styles/admin-dashboard.css'
 
+
+const API_URL = import.meta.env.VITE_API_URL
+
 function formatNum(n) {
   if (n == null) return '—'
   return n.toLocaleString('fr-CA')
@@ -197,7 +200,7 @@ export default function Dashboard() {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('https://api.classmo.ca/api/admin/analytics', {
+      const res = await fetch(`${API_URL}/api/admin/analytics`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       if (!res.ok) {
@@ -235,7 +238,6 @@ export default function Dashboard() {
           <h1>Dashboard de Statistiques</h1>
         </div>
         <div className="admin-dashboard__header-right">
-          <span className="admin-dashboard__user">{user?.fullName}</span>
           <button onClick={handleLogout} className="admin-dashboard__logout">
             <LogOut size={16} />
             <span>Déconnexion</span>

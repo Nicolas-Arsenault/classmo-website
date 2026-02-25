@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem(STORAGE_KEYS.accessToken)
     const storedRefresh = localStorage.getItem(STORAGE_KEYS.refreshToken)
     const storedUser = localStorage.getItem(STORAGE_KEYS.user)
-    console.log(API_URL)
+
     if (storedToken && storedUser) {
       try {
         const parsed = JSON.parse(storedUser)

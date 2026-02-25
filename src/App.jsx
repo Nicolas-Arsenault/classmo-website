@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Features from './components/Features'
@@ -12,6 +12,10 @@ import Terms from './pages/Terms'
 import Blog from './pages/Blog'
 import BlogPost from './pages/blog/BlogPost'
 import useDocumentMeta from './hooks/useDocumentMeta'
+import { AuthProvider } from './admin/context/AuthContext'
+import AdminLogin from './admin/pages/AdminLogin'
+import Dashboard from './admin/pages/Dashboard'
+import ProtectedRoute from './admin/components/ProtectedRoute'
 
 function LandingPage() {
   useDocumentMeta({
@@ -32,6 +36,22 @@ function LandingPage() {
 }
 
 export default function App() {
+  const location = useLocation()
+
+  if (location.pathname.startsWith('/admin')) {
+    return (
+      <AuthProvider>
+        <Routes>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={
+            <ProtectedRoute><Dashboard /></ProtectedRoute>
+          } />
+          <Route path="/admin/*" element={<Navigate to="/admin/login" replace />} />
+        </Routes>
+      </AuthProvider>
+    )
+  }
+
   return (
     <>
       <Navbar />

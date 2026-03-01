@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LogOut, Users, BookOpen, MessageSquare, TrendingUp,
   RefreshCw, AlertCircle, ShieldCheck
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import '../styles/admin-dashboard.css'
+import '../styles/admin-reports.css'
 
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -235,7 +236,7 @@ export default function Dashboard() {
       <header className="admin-dashboard__header">
         <div className="admin-dashboard__header-left">
           <img src="/classmo-icon.png" alt="Classmo" className="admin-dashboard__logo" />
-          <h1>Dashboard de Statistiques</h1>
+          <h1>Statistiques</h1>
         </div>
         <div className="admin-dashboard__header-right">
           <button onClick={handleLogout} className="admin-dashboard__logout">
@@ -244,6 +245,18 @@ export default function Dashboard() {
           </button>
         </div>
       </header>
+
+      <nav className="admin-nav-tabs">
+        <NavLink to="/admin/dashboard" className={({ isActive }) => isActive ? 'active' : ''}>
+          Statistiques
+        </NavLink>
+        <NavLink to="/admin/reports" className={({ isActive }) => isActive ? 'active' : ''}>
+          Signalements
+        </NavLink>
+        <NavLink to="/admin/users" className={({ isActive }) => isActive ? 'active' : ''}>
+          Utilisateurs
+        </NavLink>
+      </nav>
 
       <main className="admin-dashboard__content">
         <div className="admin-dashboard__toolbar">

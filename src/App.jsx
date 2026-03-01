@@ -15,6 +15,8 @@ import useDocumentMeta from './hooks/useDocumentMeta'
 import { AuthProvider } from './admin/context/AuthContext'
 import AdminLogin from './admin/pages/AdminLogin'
 import Dashboard from './admin/pages/Dashboard'
+import Reports from './admin/pages/Reports'
+import Users from './admin/pages/Users'
 import ProtectedRoute from './admin/components/ProtectedRoute'
 
 function LandingPage() {
@@ -45,6 +47,12 @@ export default function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={
             <ProtectedRoute><Dashboard /></ProtectedRoute>
+          } />
+          <Route path="/admin/reports" element={
+            <ProtectedRoute><Reports /></ProtectedRoute>
+          } />
+          <Route path="/admin/users" element={
+            <ProtectedRoute><Users /></ProtectedRoute>
           } />
           <Route path="/admin/*" element={<Navigate to="/admin/login" replace />} />
         </Routes>

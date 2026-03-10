@@ -11,6 +11,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import Terms from './pages/Terms'
 import Blog from './pages/Blog'
 import BlogPost from './pages/blog/BlogPost'
+import Download from './pages/Download'
 import useDocumentMeta from './hooks/useDocumentMeta'
 import { AuthProvider } from './admin/context/AuthContext'
 import AdminLogin from './admin/pages/AdminLogin'
@@ -38,7 +39,7 @@ function LandingPage() {
 }
 
 export default function App() {
-  const location = useLocation()
+    const location = useLocation()
 
   if (location.pathname.startsWith('/admin')) {
     return (
@@ -60,6 +61,9 @@ export default function App() {
     )
   }
 
+  if (location.pathname === '/download') {
+    return <Download />
+  }
   return (
     <>
       <Navbar />

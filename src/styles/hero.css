@@ -99,25 +99,31 @@
   background: var(--border);
 }
 
-/* ===== QR Code ===== */
-.hero-qr {
+/* ===== Store Badges ===== */
+.hero-badges {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.hero-badge-row {
+  display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.hero-qr-img {
-  width: 160px;
-  height: 160px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(10, 124, 255, 0.12);
+.hero-badge-link {
+  display: block;
+  transition: opacity 0.2s;
 }
 
-.hero-qr-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-secondary);
+.hero-badge-link:hover {
+  opacity: 0.8;
+}
+
+.hero-badge-img {
+  height: 54px;
+  width: auto;
 }
 
 /* ===== iPhone Frame ===== */
@@ -176,8 +182,12 @@
     font-size: 1.25rem;
   }
 
-  .hero-qr {
+  .hero-badges {
     align-items: flex-start;
+  }
+
+  .hero-badge-img {
+    height: 74px;
   }
 
   .iphone-frame {

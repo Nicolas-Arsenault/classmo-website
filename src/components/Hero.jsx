@@ -43,17 +43,28 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            className="hero-qr"
+            className="hero-badges"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <img
-              src="/qr-code-download-classmo.png"
-              alt="QR code Téléchargement"
-              className="hero-qr-img"
-            />
-            <span className="hero-qr-label">L'application Classmo est disponible sur l'App Store & Google Play</span>
+            <div className="hero-badge-row">
+              <a href="https://apps.apple.com/ca/app/classmo/id6759287637" target="_blank" rel="noopener noreferrer" className="hero-badge-link">
+                <img
+                  src="/appstore.svg"
+                  alt="Télécharger sur l'App Store"
+                  className="hero-badge-img"
+                />
+              </a>
+              {/* google link not available yet, hide badge for now */}
+              {/* <a href="https://play.google.com/store/apps/details?id=ca.classmo.app" target="_blank" rel="noopener noreferrer" className="hero-badge-link">
+                <img
+                  src="/google-play.svg"
+                  alt="Télécharger sur Google Play"
+                  className="hero-badge-img"
+                />
+              </a> */}
+            </div>
           </motion.div>
 
           <motion.div

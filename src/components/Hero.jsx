@@ -49,11 +49,11 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <img
-              src="/testflight-qr.png"
-              alt="QR code TestFlight"
+              src="/qr-code-download-classmo.png"
+              alt="QR code Téléchargement"
               className="hero-qr-img"
             />
-            <span className="hero-qr-label">Bêta disponible sur TestFlight</span>
+            <span className="hero-qr-label">L'application Classmo est disponible sur le App Store & Google Play</span>
           </motion.div>
 
           <motion.div

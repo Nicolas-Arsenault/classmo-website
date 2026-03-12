@@ -6,17 +6,17 @@ export default function CTA() {
     <section className="cta" id="cta">
       <div className="container">
         <ScrollReveal>
-          <h2>Rejoins la bêta!</h2>
+          <h2>Télécharge Classmo !</h2>
           <p>
-            Scanne le code QR pour rejoindre la bêta sur TestFlight et commence à acheter et vendre tes manuels dès aujourd'hui.
+            Scanne le code QR pour télécharger l'application sur ton téléphone et commence à acheter et vendre tes manuels dès aujourd'hui.
           </p>
           <div className="cta-qr">
             <img
-              src="/testflight-qr.png"
-              alt="QR code TestFlight"
+              src="/qr-code-download-classmo.png"
+              alt="QR code Téléchargement"
               className="cta-qr-img"
             />
-            <span className="cta-qr-label">Scanne pour rejoindre la bêta</span>
+            <span className="cta-qr-label">Scanne le code QR pour télécharger l'application</span>
           </div>
         </ScrollReveal>
       </div>

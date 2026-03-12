@@ -35,7 +35,7 @@ export default function Navbar() {
             className="navbar-cta"
           >
             <Download size={16} />
-            Bêta TestFlight
+            Télécharger l'app
           </a>
 
           <button

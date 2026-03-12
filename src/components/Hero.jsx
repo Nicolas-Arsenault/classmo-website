@@ -53,7 +53,7 @@ export default function Hero() {
               alt="QR code Téléchargement"
               className="hero-qr-img"
             />
-            <span className="hero-qr-label">L'application Classmo est disponible sur le App Store & Google Play</span>
+            <span className="hero-qr-label">L'application Classmo est disponible sur l'App Store & Google Play</span>
           </motion.div>
 
           <motion.div

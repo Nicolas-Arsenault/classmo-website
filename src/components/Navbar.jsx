@@ -35,7 +35,7 @@ export default function Navbar() {
             className="navbar-cta"
           >
             <Download size={16} />
-            Télécharger l'app
+            Télécharger Classmo
           </a>
 
           <button

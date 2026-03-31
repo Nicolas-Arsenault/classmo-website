@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 // Placeholder URLs — update when app store listings are live
-const APP_STORE_URL = 'https://apps.apple.com/app/classmo/id0000000000'
+const APP_STORE_URL = 'https://apps.apple.com/ca/app/classmo/id6759287637'
 const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=ca.classmo'
 const FALLBACK_URL = 'https://classmo.ca/'
 

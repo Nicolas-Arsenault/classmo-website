@@ -41,7 +41,7 @@ export default function Download() {
           </div>
           <h2 style={styles.title}>Bientôt disponible !</h2>
           <p style={styles.message}>
-            L'application Android est en cours de développement, elle sera prête très bientôt !
+            L'application Android est en cours de développement, elle sera prête très bientôt ! Cependant, vous pouvez contacter Léo-Michel Poirier-Pigeon par courriel à <a href="mailto:leomitch55@outlook.com">l'adresse e-mail suivante</a> pour faire partie de la bêta et être parmi les premiers à tester l'application dès sa sortie.
           </p>
           <a href={FALLBACK_URL} style={styles.button}>
             Retour au site

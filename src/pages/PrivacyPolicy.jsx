@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
         <p>
           <strong>Nicolas Arsenault</strong>
           <br />
-          Courriel : <a href="mailto:noreplyclassmo@gmail.com">noreplyclassmo@gmail.com</a>
+          Courriel : <a href="mailto:classmoschool@gmail.com">classmoschool@gmail.com</a>
         </p>
 
         <h2>2. Données collectées</h2>
@@ -228,7 +228,7 @@ export default function PrivacyPolicy() {
           <p>Pour toute question concernant cette politique ou vos données personnelles :</p>
           <p>
             <strong>Courriel :</strong>{' '}
-            <a href="mailto:noreplyclassmo@gmail.com">noreplyclassmo@gmail.com</a>
+            <a href="mailto:classmoschool@gmail.com">classmoschool@gmail.com</a>
           </p>
         </div>
 

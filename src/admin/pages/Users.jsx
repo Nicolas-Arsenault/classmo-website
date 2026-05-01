@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LogOut, RefreshCw, AlertCircle, Users as UsersIcon,
-  Trash2, BadgeCheck, BookOpen, Calendar
+  Trash2, BadgeCheck, BookOpen, Calendar, ChevronLeft, ChevronRight
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import '../styles/admin-dashboard.css'
@@ -11,7 +11,35 @@ import '../styles/admin-users.css'
 
 const API_URL = import.meta.env.VITE_API_URL
 const ADMIN_ROLE = import.meta.env.VITE_ADMIN_ROLE
+const PAGE_SIZE = 20
 
+function getNumber(value) {
+  const number = Number(value)
+  return Number.isFinite(number) ? number : null
+}
+
+function getPaginationMeta(json, requestedPage, userCount) {
+  const meta = json.pagination || json.page || json.meta || json
+  const totalElements =
+    getNumber(meta.totalElements) ??
+    getNumber(meta.totalUsers) ??
+    getNumber(meta.totalItems) ??
+    getNumber(meta.total)
+  const totalPages =
+    getNumber(meta.totalPages) ??
+    (totalElements === null ? null : Math.ceil(totalElements / PAGE_SIZE))
+  const hasNext =
+    typeof meta.hasNext === 'boolean' ? meta.hasNext :
+    typeof meta.last === 'boolean' ? !meta.last :
+    totalPages === null ? userCount === PAGE_SIZE : requestedPage < totalPages - 1
+
+  return {
+    totalElements,
+    totalPages,
+    hasNext,
+    hasPrevious: requestedPage > 0,
+  }
+}
 
 function getInitials(fullName) {
   if (!fullName) return '?'
@@ -130,17 +158,24 @@ function ConfirmModal({ user, onCancel, onConfirm, deleting }) {
 export default function Users() {
   const { user, accessToken, logout } = useAuth()
   const navigate = useNavigate()
-  const [data, setData] = useState(null)
+  const [users, setUsers] = useState(null)
+  const [page, setPage] = useState(0)
+  const [pagination, setPagination] = useState({
+    totalElements: null,
+    totalPages: null,
+    hasNext: false,
+    hasPrevious: false,
+  })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [confirmTarget, setConfirmTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
 
-  async function fetchUsers() {
+  async function fetchUsers(pageToFetch = page) {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch(`${API_URL}/api/admin/users?page=0&size=20`, {
+      const res = await fetch(`${API_URL}/api/admin/users?page=${pageToFetch}&size=${PAGE_SIZE}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       if (!res.ok) {
@@ -152,7 +187,9 @@ export default function Users() {
         throw new Error(`Erreur ${res.status}`)
       }
       const json = await res.json()
-      setData(json.users)
+      const nextUsers = json.users || json.content || []
+      setUsers(nextUsers)
+      setPagination(getPaginationMeta(json, pageToFetch, nextUsers.length))
     } catch (err) {
       setError(err.message || 'Impossible de charger les utilisateurs.')
     } finally {
@@ -160,7 +197,7 @@ export default function Users() {
     }
   }
 
-  useEffect(() => { fetchUsers() }, [])
+  useEffect(() => { fetchUsers(page) }, [page])
 
   async function handleDeleteUser() {
     if (!confirmTarget) return
@@ -178,8 +215,16 @@ export default function Users() {
         }
         throw new Error(`Erreur ${res.status}`)
       }
-      setData(prev => prev.filter(u => u.id !== confirmTarget.id))
+      const nextUsers = users.filter(u => u.id !== confirmTarget.id)
+      setUsers(nextUsers)
+      setPagination(prev => ({
+        ...prev,
+        totalElements: prev.totalElements === null ? null : Math.max(prev.totalElements - 1, 0),
+      }))
       setConfirmTarget(null)
+      if (nextUsers.length === 0 && page > 0) {
+        setPage(page - 1)
+      }
     } catch (err) {
       setError(err.message || "Impossible de supprimer l'utilisateur.")
     } finally {
@@ -191,6 +236,21 @@ export default function Users() {
     logout()
     navigate('/admin/login')
   }
+
+  function goToPreviousPage() {
+    if (!loading && page > 0) {
+      setPage(page - 1)
+    }
+  }
+
+  function goToNextPage() {
+    if (!loading && pagination.hasNext) {
+      setPage(page + 1)
+    }
+  }
+
+  const hasUsers = users && users.length > 0
+  const showPagination = users && (hasUsers || page > 0)
 
   return (
     <div className="admin-dashboard">
@@ -225,7 +285,7 @@ export default function Users() {
             Bienvenue, {user?.fullName || 'Admin'}
           </p>
           <button
-            onClick={fetchUsers}
+            onClick={() => fetchUsers(page)}
             className="admin-dashboard__refresh"
             disabled={loading}
           >
@@ -241,29 +301,65 @@ export default function Users() {
           </div>
         )}
 
-        {loading && !data && (
+        {loading && !users && (
           <div className="admin-dashboard__loading">
             <RefreshCw size={20} className="spin" />
             <span>Chargement des utilisateurs...</span>
           </div>
         )}
 
-        {data && data.length === 0 && (
+        {users && users.length === 0 && (
           <div className="admin-users__empty">
             <UsersIcon size={40} />
             <p>Aucun utilisateur trouvé</p>
           </div>
         )}
 
-        {data && data.length > 0 && (
-          <div className="admin-users__grid">
-            {data.map(u => (
-              <UserCard
-                key={u.id}
-                user={u}
-                onDelete={setConfirmTarget}
-              />
-            ))}
+        {hasUsers && (
+          <>
+            <div className="admin-users__grid">
+              {users.map(u => (
+                <UserCard
+                  key={u.id}
+                  user={u}
+                  onDelete={setConfirmTarget}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {showPagination && (
+          <div className="admin-users__pagination">
+            <button
+              type="button"
+              className="admin-users__pagination-btn"
+              onClick={goToPreviousPage}
+              disabled={loading || !pagination.hasPrevious}
+            >
+              <ChevronLeft size={15} />
+              <span>Précédent</span>
+            </button>
+
+            <div className="admin-users__pagination-status">
+              <span>
+                Page {page + 1}
+                {pagination.totalPages ? ` sur ${pagination.totalPages}` : ''}
+              </span>
+              {pagination.totalElements !== null && (
+                <small>{pagination.totalElements} utilisateurs</small>
+              )}
+            </div>
+
+            <button
+              type="button"
+              className="admin-users__pagination-btn"
+              onClick={goToNextPage}
+              disabled={loading || !pagination.hasNext}
+            >
+              <span>Suivant</span>
+              <ChevronRight size={15} />
+            </button>
           </div>
         )}
       </main>

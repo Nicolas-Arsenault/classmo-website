@@ -57,13 +57,13 @@ export default function Hero() {
                 />
               </a>
               {/* google link not available yet, hide badge for now */}
-              {/* <a href="https://play.google.com/store/apps/details?id=ca.classmo.app" target="_blank" rel="noopener noreferrer" className="hero-badge-link">
+              <a href="https://play.google.com/store/apps/details?id=com.classmo.android" target="_blank" rel="noopener noreferrer" className="hero-badge-link">
                 <img
                   src="/google-play.svg"
                   alt="Télécharger sur Google Play"
                   className="hero-badge-img"
                 />
-              </a> */}
+              </a>
             </div>
           </motion.div>
 

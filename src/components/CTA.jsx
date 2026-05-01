@@ -18,13 +18,13 @@ export default function CTA() {
                 className="cta-badge-img"
               />
             </a>
-            {/* <a href="https://play.google.com/store/apps/details?id=ca.classmo.app" target="_blank" rel="noopener noreferrer" className="cta-badge-link">
+            <a href="https://play.google.com/store/apps/details?id=com.classmo.android" target="_blank" rel="noopener noreferrer" className="cta-badge-link">
               <img
                 src="/google-play.svg"
                 alt="Télécharger sur Google Play"
                 className="cta-badge-img"
               />
-            </a> */}
+            </a>
           </div>
         </ScrollReveal>
       </div>

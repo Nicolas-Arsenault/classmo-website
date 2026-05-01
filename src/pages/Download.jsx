@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 const APP_STORE_URL = 'https://apps.apple.com/ca/app/classmo/id6759287637'
-const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.classmo.android&hl=en_CA'
+const GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.classmo.android'
 const FALLBACK_URL = 'https://classmo.ca/'
 
 export default function Download() {

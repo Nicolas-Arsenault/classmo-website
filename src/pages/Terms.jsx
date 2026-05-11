@@ -230,7 +230,7 @@ export default function Terms() {
           <p>Pour toute question concernant ces conditions :</p>
           <p>
             <strong>Courriel :</strong>{' '}
-            <a href="mailto:noreplyclassmo@gmail.com">noreplyclassmo@gmail.com</a>
+            <a href="mailto:classmoschool@gmail.com">classmoschool@gmail.com</a>
           </p>
           <p style={{ marginTop: '16px' }}>
             Voir aussi notre <Link to="/privacy">Politique de confidentialité</Link>

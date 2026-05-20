@@ -89,14 +89,19 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <div className="hero-partner-pill">
+              <a
+                href="https://cegepsi.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-partner-pill"
+              >
                 <img
                   src="/logo-cegepsi.png"
                   alt="Cégep de Sept-Îles"
                   className="hero-partner-logo"
                 />
                 <span>Propulsé par le Cégep de Sept-Îles</span>
-              </div>
+              </a>
             </motion.div>
           </div>
         </div>

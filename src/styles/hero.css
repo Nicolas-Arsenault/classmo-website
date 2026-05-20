@@ -131,7 +131,20 @@
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.2;
+  text-decoration: none;
   box-shadow: 0 8px 24px rgba(119, 128, 138, 0.08);
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.hero-partner-pill:hover {
+  border-color: rgba(10, 124, 255, 0.35);
+  color: var(--blue);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(10, 124, 255, 0.12);
 }
 
 .hero-partner-logo {

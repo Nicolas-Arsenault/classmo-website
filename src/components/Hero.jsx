@@ -67,20 +67,38 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          <motion.div
-            className="hero-stats"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            {stats.map((stat, index) => (
-              <div key={stat.label} className="hero-stat">
-                <span className="hero-stat-value">{stat.value}</span>
-                <span className="hero-stat-label">{stat.label}</span>
-                {index < stats.length - 1 && <span className="hero-stat-divider" />}
+          <div className="hero-metrics">
+            <motion.div
+              className="hero-stats"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              {stats.map((stat, index) => (
+                <div key={stat.label} className="hero-stat">
+                  <span className="hero-stat-value">{stat.value}</span>
+                  <span className="hero-stat-label">{stat.label}</span>
+                  {index < stats.length - 1 && <span className="hero-stat-divider" />}
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div
+              className="hero-partner"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <div className="hero-partner-pill">
+                <img
+                  src="/logo-cegepsi.png"
+                  alt="Cégep de Sept-Îles"
+                  className="hero-partner-logo"
+                />
+                <span>Propulsé par le Cégep de Sept-Îles</span>
               </div>
-            ))}
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
 
         <motion.div

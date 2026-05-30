@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LogOut, RefreshCw, AlertCircle, Users as UsersIcon,
   Trash2, BadgeCheck, BookOpen, Calendar, ChevronLeft, ChevronRight,
-  Download
+  Download, Shuffle, X, Eye, EyeOff
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import '../styles/admin-dashboard.css'
@@ -31,6 +31,8 @@ const EXPORT_MODES = {
     getLine: user => `${user.fullName || ''}\t${user.email || ''}`,
   },
 }
+const WHEEL_COLORS = ['#0A7CFF', '#ffffff']
+const WHEEL_SPIN_DURATION_MS = 5500
 
 function getNumber(value) {
   const number = Number(value)
@@ -112,6 +114,30 @@ function downloadTextFile(filename, text) {
   URL.revokeObjectURL(url)
 }
 
+function normalizeDegrees(degrees) {
+  return ((degrees % 360) + 360) % 360
+}
+
+function getWheelEntries(users) {
+  return users
+    .map(user => ({
+      user,
+      label: (user.fullName || user.email || '').trim(),
+    }))
+    .filter(entry => entry.label)
+}
+
+function getShuffledEntries(entries) {
+  const shuffled = [...entries]
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const current = shuffled[i]
+    shuffled[i] = shuffled[j]
+    shuffled[j] = current
+  }
+  return shuffled
+}
+
 function UserCard({ user, onDelete }) {
   return (
     <div className="user-card">
@@ -191,6 +217,232 @@ function ConfirmModal({ user, onCancel, onConfirm, deleting }) {
   )
 }
 
+function UsersWheel({ entries, spinning, rotation, onSpin }) {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    let cancelled = false
+
+    const size = 360
+    const ratio = window.devicePixelRatio || 1
+    canvas.width = size * ratio
+    canvas.height = size * ratio
+
+    const ctx = canvas.getContext('2d')
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+    ctx.clearRect(0, 0, size, size)
+
+    const center = size / 2
+    const radius = center - 6
+    const arc = (Math.PI * 2) / entries.length
+    const drawCenter = (logo) => {
+      ctx.beginPath()
+      ctx.arc(center, center, 34, 0, Math.PI * 2)
+      ctx.fillStyle = '#fff'
+      ctx.fill()
+      ctx.strokeStyle = '#000'
+      ctx.lineWidth = 3
+      ctx.stroke()
+
+      if (logo) {
+        ctx.save()
+        ctx.beginPath()
+        ctx.arc(center, center, 25, 0, Math.PI * 2)
+        ctx.clip()
+        ctx.drawImage(logo, center - 25, center - 25, 50, 50)
+        ctx.restore()
+      }
+    }
+
+    entries.forEach((entry, index) => {
+      const start = -Math.PI / 2 - arc / 2 + index * arc
+      const end = start + arc
+      const color = WHEEL_COLORS[index % WHEEL_COLORS.length]
+
+      ctx.beginPath()
+      ctx.moveTo(center, center)
+      ctx.arc(center, center, radius, start, end)
+      ctx.closePath()
+      ctx.fillStyle = color
+      ctx.fill()
+      ctx.strokeStyle = '#000'
+      ctx.lineWidth = 2
+      ctx.stroke()
+
+      ctx.save()
+      ctx.translate(center, center)
+      ctx.rotate(start + arc / 2)
+      ctx.textAlign = 'right'
+      ctx.textBaseline = 'middle'
+      ctx.fillStyle = '#000'
+      ctx.font = entries.length > 28 ? '600 10px system-ui, sans-serif' : '700 12px system-ui, sans-serif'
+      const text = entry.label.length > 28 ? `${entry.label.slice(0, 25)}...` : entry.label
+      ctx.fillText(text, radius - 14, 0)
+      ctx.restore()
+    })
+
+    ctx.beginPath()
+    ctx.arc(center, center, radius, 0, Math.PI * 2)
+    ctx.strokeStyle = '#000'
+    ctx.lineWidth = 3
+    ctx.stroke()
+
+    drawCenter()
+
+    const logo = new Image()
+    logo.onload = () => {
+      if (!cancelled) drawCenter(logo)
+    }
+    logo.src = '/classmo-icon.png'
+
+    return () => {
+      cancelled = true
+    }
+  }, [entries])
+
+  return (
+    <div className="admin-users-wheel">
+      <div className="admin-users-wheel__pointer" />
+      <canvas
+        ref={canvasRef}
+        className="admin-users-wheel__canvas"
+        style={{
+          transform: `rotate(${rotation}deg)`,
+          transition: spinning ? `transform ${WHEEL_SPIN_DURATION_MS}ms cubic-bezier(0.12, 0.74, 0.18, 1)` : 'none',
+        }}
+      />
+      <button
+        type="button"
+        className="admin-users-wheel__spin"
+        onClick={onSpin}
+        disabled={spinning || entries.length === 0}
+      >
+        <Shuffle size={15} />
+        <span>{spinning ? 'Ça tourne...' : 'Tourner'}</span>
+      </button>
+    </div>
+  )
+}
+
+function WheelModal({
+  users,
+  loading,
+  onCancel,
+}) {
+  const [rotation, setRotation] = useState(0)
+  const [spinning, setSpinning] = useState(false)
+  const [winner, setWinner] = useState(null)
+  const [wheelEntries, setWheelEntries] = useState([])
+  const [showWinnerEmail, setShowWinnerEmail] = useState(false)
+  const spinTimeoutRef = useRef(null)
+
+  useEffect(() => {
+    setWheelEntries(getWheelEntries(users))
+    setWinner(null)
+    setShowWinnerEmail(false)
+    setRotation(0)
+  }, [users])
+
+  useEffect(() => () => {
+    if (spinTimeoutRef.current) clearTimeout(spinTimeoutRef.current)
+  }, [])
+
+  function spinWheel() {
+    if (spinning || wheelEntries.length === 0) return
+
+    const nextEntries = getShuffledEntries(wheelEntries)
+    const winnerIndex = Math.floor(Math.random() * nextEntries.length)
+    const arcDegrees = 360 / nextEntries.length
+    const targetRotation = normalizeDegrees(-winnerIndex * arcDegrees)
+    const currentRotation = normalizeDegrees(rotation)
+    const rotationDelta = normalizeDegrees(targetRotation - currentRotation)
+    const nextRotation = rotation + (360 * 7) + rotationDelta
+
+    setWinner(null)
+    setShowWinnerEmail(false)
+    setWheelEntries(nextEntries)
+    setSpinning(true)
+    setRotation(nextRotation)
+
+    spinTimeoutRef.current = setTimeout(() => {
+      setWinner(nextEntries[winnerIndex])
+      setSpinning(false)
+    }, WHEEL_SPIN_DURATION_MS + 100)
+  }
+
+  return (
+    <div className="admin-users-wheel-modal__overlay" onClick={onCancel}>
+      <div className="admin-users-wheel-modal" onClick={e => e.stopPropagation()}>
+        <div className="admin-users-wheel-modal__header">
+          <div>
+            <h3>Roue des utilisateurs</h3>
+            <p>{wheelEntries.length} utilisateur{wheelEntries.length !== 1 ? 's' : ''} dans la roue</p>
+          </div>
+          <button
+            type="button"
+            className="admin-users-wheel-modal__close"
+            onClick={onCancel}
+            aria-label="Fermer la roue"
+          >
+            <X size={17} />
+          </button>
+        </div>
+
+        {loading && (
+          <div className="admin-users-wheel-modal__state">
+            <RefreshCw size={18} className="spin" />
+            <span>Chargement de la roue...</span>
+          </div>
+        )}
+
+        {!loading && wheelEntries.length === 0 && (
+          <div className="admin-users-wheel-modal__state">
+            <UsersIcon size={28} />
+            <span>Aucun utilisateur disponible</span>
+          </div>
+        )}
+
+        {!loading && wheelEntries.length > 0 && (
+          <>
+            <UsersWheel
+              entries={wheelEntries}
+              spinning={spinning}
+              rotation={rotation}
+              onSpin={spinWheel}
+            />
+            <div className="admin-users-wheel-modal__result">
+              {winner ? (
+                <>
+                  <span>Gagnant: </span>
+                  <strong>{winner.user.fullName || 'Inconnu'}</strong>
+                  {winner.user.email && (
+                    <div className="admin-users-wheel-modal__email-row">
+                      <small>{showWinnerEmail ? winner.user.email : '••••••••••••••••'}</small>
+                      <button
+                        type="button"
+                        className="admin-users-wheel-modal__email-toggle"
+                        onClick={() => setShowWinnerEmail(prev => !prev)}
+                        aria-label={showWinnerEmail ? 'Masquer le courriel' : 'Afficher le courriel'}
+                        title={showWinnerEmail ? 'Masquer le courriel' : 'Afficher le courriel'}
+                      >
+                        {showWinnerEmail ? <EyeOff size={14} /> : <Eye size={14} />}
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <span>Tourne la roue pour choisir un utilisateur.</span>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function Users() {
   const { user, accessToken, logout } = useAuth()
   const navigate = useNavigate()
@@ -208,6 +460,9 @@ export default function Users() {
   const [deleting, setDeleting] = useState(false)
   const [exportMode, setExportMode] = useState('both')
   const [exporting, setExporting] = useState(false)
+  const [wheelOpen, setWheelOpen] = useState(false)
+  const [wheelUsers, setWheelUsers] = useState([])
+  const [wheelLoading, setWheelLoading] = useState(false)
 
   async function fetchUsers(pageToFetch = page) {
     setLoading(true)
@@ -237,7 +492,7 @@ export default function Users() {
 
   useEffect(() => { fetchUsers(page) }, [page])
 
-  async function fetchAllUsersForExport() {
+  async function fetchAllUsers() {
     const allUsers = []
     let exportPage = 0
     let hasNext = true
@@ -271,7 +526,7 @@ export default function Users() {
     setExporting(true)
     setError('')
     try {
-      const allUsers = await fetchAllUsersForExport()
+      const allUsers = await fetchAllUsers()
       if (!allUsers) return
 
       const mode = EXPORT_MODES[exportMode]
@@ -281,6 +536,26 @@ export default function Users() {
       setError(err.message || "Impossible d'exporter les utilisateurs.")
     } finally {
       setExporting(false)
+    }
+  }
+
+  async function handleOpenWheel() {
+    setWheelOpen(true)
+    setWheelLoading(true)
+    setWheelUsers([])
+    setError('')
+    try {
+      const allUsers = await fetchAllUsers()
+      if (!allUsers) {
+        setWheelOpen(false)
+        return
+      }
+      setWheelUsers(allUsers)
+    } catch (err) {
+      setError(err.message || 'Impossible de charger la roue.')
+      setWheelOpen(false)
+    } finally {
+      setWheelLoading(false)
     }
   }
 
@@ -397,6 +672,19 @@ export default function Users() {
               </button>
             </div>
             <button
+              type="button"
+              onClick={handleOpenWheel}
+              className="admin-users__wheel-btn"
+              disabled={loading || wheelLoading}
+            >
+              {wheelLoading ? (
+                <RefreshCw size={15} className="spin" />
+              ) : (
+                <Shuffle size={15} />
+              )}
+              <span>{wheelLoading ? 'Roue...' : 'Roue'}</span>
+            </button>
+            <button
               onClick={() => fetchUsers(page)}
               className="admin-dashboard__refresh"
               disabled={loading}
@@ -483,6 +771,14 @@ export default function Users() {
           onCancel={() => setConfirmTarget(null)}
           onConfirm={handleDeleteUser}
           deleting={deleting}
+        />
+      )}
+
+      {wheelOpen && (
+        <WheelModal
+          users={wheelUsers}
+          loading={wheelLoading}
+          onCancel={() => setWheelOpen(false)}
         />
       )}
     </div>

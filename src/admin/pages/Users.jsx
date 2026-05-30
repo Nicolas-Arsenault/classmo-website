@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LogOut, RefreshCw, AlertCircle, Users as UsersIcon,
-  Trash2, BadgeCheck, BookOpen, Calendar, ChevronLeft, ChevronRight
+  Trash2, BadgeCheck, BookOpen, Calendar, ChevronLeft, ChevronRight,
+  Download
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import '../styles/admin-dashboard.css'
@@ -12,13 +13,31 @@ import '../styles/admin-users.css'
 const API_URL = import.meta.env.VITE_API_URL
 const ADMIN_ROLE = import.meta.env.VITE_ADMIN_ROLE
 const PAGE_SIZE = 20
+const EXPORT_PAGE_SIZE = 100
+const EXPORT_MODES = {
+  names: {
+    label: 'Noms',
+    slug: 'noms',
+    getLine: user => user.fullName || '',
+  },
+  emails: {
+    label: 'Emails',
+    slug: 'emails',
+    getLine: user => user.email || '',
+  },
+  both: {
+    label: 'Noms et emails',
+    slug: 'noms-emails',
+    getLine: user => `${user.fullName || ''}\t${user.email || ''}`,
+  },
+}
 
 function getNumber(value) {
   const number = Number(value)
   return Number.isFinite(number) ? number : null
 }
 
-function getPaginationMeta(json, requestedPage, userCount) {
+function getPaginationMeta(json, requestedPage, userCount, pageSize = PAGE_SIZE) {
   const meta = json.pagination || json.page || json.meta || json
   const totalElements =
     getNumber(meta.totalElements) ??
@@ -27,11 +46,11 @@ function getPaginationMeta(json, requestedPage, userCount) {
     getNumber(meta.total)
   const totalPages =
     getNumber(meta.totalPages) ??
-    (totalElements === null ? null : Math.ceil(totalElements / PAGE_SIZE))
+    (totalElements === null ? null : Math.ceil(totalElements / pageSize))
   const hasNext =
     typeof meta.hasNext === 'boolean' ? meta.hasNext :
     typeof meta.last === 'boolean' ? !meta.last :
-    totalPages === null ? userCount === PAGE_SIZE : requestedPage < totalPages - 1
+    totalPages === null ? userCount === pageSize : requestedPage < totalPages - 1
 
   return {
     totalElements,
@@ -74,6 +93,23 @@ function formatRelativeTime(iso) {
   if (diffD < 30) return `il y a ${diffD}j`
   const diffM = Math.floor(diffD / 30)
   return `il y a ${diffM} mois`
+}
+
+function getExportFilename(mode) {
+  const date = new Date().toISOString().slice(0, 10)
+  return `classmo-users-${EXPORT_MODES[mode].slug}-${date}.txt`
+}
+
+function downloadTextFile(filename, text) {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
 }
 
 function UserCard({ user, onDelete }) {
@@ -170,6 +206,8 @@ export default function Users() {
   const [loading, setLoading] = useState(true)
   const [confirmTarget, setConfirmTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+  const [exportMode, setExportMode] = useState('both')
+  const [exporting, setExporting] = useState(false)
 
   async function fetchUsers(pageToFetch = page) {
     setLoading(true)
@@ -198,6 +236,53 @@ export default function Users() {
   }
 
   useEffect(() => { fetchUsers(page) }, [page])
+
+  async function fetchAllUsersForExport() {
+    const allUsers = []
+    let exportPage = 0
+    let hasNext = true
+
+    while (hasNext) {
+      const res = await fetch(`${API_URL}/api/admin/users?page=${exportPage}&size=${EXPORT_PAGE_SIZE}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      if (!res.ok) {
+        if (res.status === 401 || res.status === 403) {
+          logout()
+          navigate('/admin/login')
+          return null
+        }
+        throw new Error(`Erreur ${res.status}`)
+      }
+
+      const json = await res.json()
+      const pageUsers = json.users || json.content || []
+      allUsers.push(...pageUsers)
+
+      const exportPagination = getPaginationMeta(json, exportPage, pageUsers.length, EXPORT_PAGE_SIZE)
+      hasNext = exportPagination.hasNext
+      exportPage += 1
+    }
+
+    return allUsers
+  }
+
+  async function handleExportUsers() {
+    setExporting(true)
+    setError('')
+    try {
+      const allUsers = await fetchAllUsersForExport()
+      if (!allUsers) return
+
+      const mode = EXPORT_MODES[exportMode]
+      const text = allUsers.map(mode.getLine).join('\n')
+      downloadTextFile(getExportFilename(exportMode), text)
+    } catch (err) {
+      setError(err.message || "Impossible d'exporter les utilisateurs.")
+    } finally {
+      setExporting(false)
+    }
+  }
 
   async function handleDeleteUser() {
     if (!confirmTarget) return
@@ -253,7 +338,7 @@ export default function Users() {
   const showPagination = users && (hasUsers || page > 0)
 
   return (
-    <div className="admin-dashboard">
+    <div className="admin-dashboard admin-users-page">
       <header className="admin-dashboard__header">
         <div className="admin-dashboard__header-left">
           <img src="/classmo-icon.png" alt="Classmo" className="admin-dashboard__logo" />
@@ -284,14 +369,42 @@ export default function Users() {
           <p className="admin-dashboard__welcome">
             Bienvenue, {user?.fullName || 'Admin'}
           </p>
-          <button
-            onClick={() => fetchUsers(page)}
-            className="admin-dashboard__refresh"
-            disabled={loading}
-          >
-            <RefreshCw size={15} className={loading ? 'spin' : ''} />
-            <span>Actualiser</span>
-          </button>
+          <div className="admin-users__toolbar-actions">
+            <div className="admin-users__export">
+              <select
+                className="admin-users__export-select"
+                value={exportMode}
+                onChange={e => setExportMode(e.target.value)}
+                disabled={exporting}
+                aria-label="Champs à exporter"
+              >
+                {Object.entries(EXPORT_MODES).map(([value, mode]) => (
+                  <option key={value} value={value}>{mode.label}</option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={handleExportUsers}
+                className="admin-users__export-btn"
+                disabled={loading || exporting}
+              >
+                {exporting ? (
+                  <RefreshCw size={15} className="spin" />
+                ) : (
+                  <Download size={15} />
+                )}
+                <span>{exporting ? 'Export...' : 'Exporter TXT'}</span>
+              </button>
+            </div>
+            <button
+              onClick={() => fetchUsers(page)}
+              className="admin-dashboard__refresh"
+              disabled={loading}
+            >
+              <RefreshCw size={15} className={loading ? 'spin' : ''} />
+              <span>Actualiser</span>
+            </button>
+          </div>
         </div>
 
         {error && (

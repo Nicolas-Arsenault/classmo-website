@@ -1,4 +1,69 @@
 /* ===== Users Grid ===== */
+.admin-users__toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.admin-users__export {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-users__export-select {
+  height: 34px;
+  padding: 0 2rem 0 0.75rem;
+  border: 1px solid var(--border, #e8e8e8);
+  border-radius: 8px;
+  background: var(--bg, #fff);
+  color: var(--text, #000);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.2s ease;
+}
+
+.admin-users__export-select:hover:not(:disabled),
+.admin-users__export-select:focus {
+  border-color: var(--blue, #0A7CFF);
+  box-shadow: 0 4px 12px rgba(10, 124, 255, 0.12);
+  outline: none;
+}
+
+.admin-users__export-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-users__export-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 34px;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--blue, #0A7CFF);
+  border-radius: 8px;
+  background: var(--blue, #0A7CFF);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.admin-users__export-btn:hover:not(:disabled) {
+  background: #006fe6;
+  border-color: #006fe6;
+  box-shadow: 0 4px 12px rgba(10, 124, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.admin-users__export-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .admin-users__grid {
   display: flex;
   flex-direction: column;
@@ -216,6 +281,32 @@
 
 /* ===== Mobile ===== */
 @media (max-width: 640px) {
+  .admin-users-page .admin-dashboard__toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.875rem;
+  }
+
+  .admin-users__toolbar-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-users__export {
+    width: 100%;
+  }
+
+  .admin-users__export-select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .admin-users__export-btn,
+  .admin-users__toolbar-actions .admin-dashboard__refresh {
+    justify-content: center;
+  }
+
   .user-card {
     gap: 0.75rem;
     padding: 0.875rem;

@@ -267,9 +267,6 @@ function UsersWheel({ entries, spinning, rotation, onSpin }) {
       ctx.closePath()
       ctx.fillStyle = color
       ctx.fill()
-      ctx.strokeStyle = '#000'
-      ctx.lineWidth = 2
-      ctx.stroke()
 
       ctx.save()
       ctx.translate(center, center)
